@@ -22,7 +22,6 @@ namespace SampleWebAPICodeCamp.Repository
 
         public async Task<IPtoCountry> GetIpInfo(string ip)
         {
-            System.Net.Http.HttpClient httpClient1 = new HttpClient();
             var response = await GetValues("https://api123.ip2country.info/ip?" + ip);
             var result = await response.Content.ReadAsStringAsync();
             var output = JsonConvert.DeserializeObject<IPtoCountry>(result);
