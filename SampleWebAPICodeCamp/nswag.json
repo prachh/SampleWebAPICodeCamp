@@ -1,0 +1,16 @@
+﻿{
+  "runtime": "Net50",
+  "defaultVariables": "",
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
+      "documentName": "swagger-SampleWebAPICodeCamp",
+      "output": "SampleWebAPICodeCamp.json",
+      "outputType": "Swagger2",
+      "assemblyPaths": [
+        "SampleWebAPICodeCamp.dll"
+      ],
+      "assemblyConfig": ""
+    }
+  },
+  "codeGenerators": {}
+}

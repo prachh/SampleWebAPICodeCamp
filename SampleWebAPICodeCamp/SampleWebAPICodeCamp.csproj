@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.13.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.13.2" />
+    <PackageReference Include="NSwag.Core" Version="13.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NSwag.MSBuild" />
+    <None Remove="Polly.Extensions.Http" />
+    <None Remove="NSwag.AspNetCore" />
+    <None Remove="NSwag.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SampleWebAPICodeCamp.Repository\SampleWebAPICodeCamp.Repository.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="nswag.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="nswag.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>nswag.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Target Name="NSwag" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
+    <Copy SourceFiles="@(ReferencePath)" DestinationFolder="$(OutDir)References" />
+    <Exec Command="$(NSwagExe_Net50) run $(OutDir)nswag.json /variables:OutDir=$(OutDir)" />
+  </Target>
+
+</Project>
