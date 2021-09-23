@@ -33,14 +33,15 @@ namespace SampleWebAPICodeCamp.Repository
             var request = CreateRequest(HttpMethod.Get, url, headervalues);
             //return await _httpClient.SendAsync(request);
 
-            //var timeout = 5;
+            //var timeout = 1;
 
             //var PollyPolicy =
             //        Policy.TimeoutAsync(
             //            TimeSpan.FromSeconds(timeout),
             //            TimeoutStrategy.Optimistic);
 
-            //var policyResult = await PollyPolicy.ExecuteAndCaptureAsync(async (ct) => {
+            //var policyResult = await PollyPolicy.ExecuteAndCaptureAsync(async (ct) =>
+            //{
             //    return await _httpClient.SendAsync(request, ct);
             //}, CancellationToken.None);
 
@@ -62,7 +63,8 @@ namespace SampleWebAPICodeCamp.Repository
             //.Handle<Exception>()
             //.WaitAndRetryAsync(retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-            //var policyResultRetry = await PollyPolicyRety.ExecuteAndCaptureAsync(async (ct) => {
+            //var policyResultRetry = await PollyPolicyRety.ExecuteAndCaptureAsync(async (ct) =>
+            //{
             //    Console.WriteLine("Call Retry");
             //    return await _httpClient.SendAsync(request, ct);
             //}, CancellationToken.None);
@@ -78,13 +80,15 @@ namespace SampleWebAPICodeCamp.Repository
 
 
             var policyFallBack = Policy<HttpResponseMessage>
-            .Handle<Exception>().FallbackAsync<HttpResponseMessage>(async (ct) => {
-                Console.WriteLine("In FallBack");
-                return new HttpResponseMessage() { StatusCode = System.Net.HttpStatusCode.OK };
-            });
+            .Handle<Exception>().FallbackAsync<HttpResponseMessage>(async (ct) =>
+             {
+                 Console.WriteLine("In FallBack");
+                 return new HttpResponseMessage() { StatusCode = System.Net.HttpStatusCode.OK };
+             });
 
 
-            var policyResultFallBack = await policyFallBack.ExecuteAndCaptureAsync(async (ct) => {
+            var policyResultFallBack = await policyFallBack.ExecuteAndCaptureAsync(async (ct) =>
+            {
                 return await _httpClient.SendAsync(request, ct);
             }, CancellationToken.None);
 
